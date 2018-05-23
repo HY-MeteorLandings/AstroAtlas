@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "mapbox-gl": "^0.45.0",
-    "node-sass": "^4.7.1"
+    "node-sass": "^4.7.1",
+    "react-mapbox-gl": "^3.8.0"
   }
 }

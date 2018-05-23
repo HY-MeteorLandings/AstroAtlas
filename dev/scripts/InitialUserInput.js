@@ -1,7 +1,7 @@
-import React from 'react';
+// import React from 'react';
 
-class InitialUserInput extends React.Component {
+// class InitialUserInput extends React.Component {
     
-}
+// }
 
-export default InitialUserInput;
+// export default InitialUserInput;
