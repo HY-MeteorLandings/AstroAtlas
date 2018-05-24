@@ -60,25 +60,25 @@ class App extends React.Component {
       name: '',
       coordinates: [],
       mass: '',
-      searchResults:[],
-      year: ''
+      searchResults: [],
+      year: '2018'
     }
   }
 
   componentDidMount() {
     axios.get('https://data.nasa.gov/resource/y77d-th95.json', {
-
       params: {
-        year: '1880-01-01T00:00:00.000'
+        year: `${this.state.year}-01-01T00:00:00.000`
       }
     })
-    
       .then((res) => {
+        // console.log(...res.data);
+         const returnRocks = res.data;
 
-        console.log(res.data);
-
+        this.setState({
+          searchResults: returnRocks
+        });
       })
-
   }
 
     render() {
@@ -88,10 +88,7 @@ class App extends React.Component {
       });
 
       return (
-        // <InitialUserInput />
         <main>
-          <h1>Hi</h1>
-          
           <Map
             style="mapbox://styles/mapbox/streets-v9"
             containerStyle={{
@@ -106,8 +103,7 @@ class App extends React.Component {
               <Feature coordinates={[-0.481747846041145, 51.3233379650232]}/>
             </Layer>
             
-        </Map>
-        
+          </Map>
         </main> 
         
       )
