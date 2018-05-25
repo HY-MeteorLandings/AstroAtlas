@@ -147,12 +147,14 @@ class App extends React.Component {
       
       return (
         <main>
-          <InitialUserInput 
-            yearOptions = {this.state.yearResults}
-            handleSubmit = {this.handleSubmit}
-            handleChange = {this.handleChange}
-          />
-          <h1>Hi</h1>
+          <div className="landingPage">
+            <InitialUserInput 
+              yearOptions = {this.state.yearResults}
+              handleSubmit = {this.handleSubmit}
+              handleChange = {this.handleChange}
+            />
+          </div>
+
           <Map
             style="mapbox://styles/mapbox/dark-v9"
             zoom = {[1.7]} 

@@ -3,7 +3,7 @@ import React from 'react';
 class InitialUserInput extends React.Component {
     render() {
         return(
-         <div>
+         <div className="initialUserInput">
              <div className="title">
                 <h1>AstroAtlas</h1>
              </div>
