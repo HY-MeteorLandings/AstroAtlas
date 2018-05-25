@@ -4,7 +4,8 @@ import InitialUserInput from './InitialUserInput';
 import axios from 'axios';
 import ReactMapboxGl, {
   Layer,
-  Feature
+  Feature,
+  Marker
 } from "react-mapbox-gl";
 
 // * MAPBOX access token - pk.eyJ1IjoiZmFsbGluZ3JvY2tzIiwiYSI6ImNqaGk1MXdlczIyMHgzZG03NHZpY3dndjIifQ.mxjjIpdUTjnfXfMtbQgIdQ
@@ -61,25 +62,47 @@ class App extends React.Component {
       coordinates: [],
       mass: '',
       searchResults: [],
-      year: '2018'
+      year: '1990',
+      yearResults:[]
     }
   }
 
   componentDidMount() {
     axios.get('https://data.nasa.gov/resource/y77d-th95.json', {
-      params: {
-        year: `${this.state.year}-01-01T00:00:00.000`
-      }
+
     })
       .then((res) => {
-        // console.log(...res.data);
-         const returnRocks = res.data;
+        // console.log(res.data);
+          const years = res.data.map((element)=> {
 
-        this.setState({
-          searchResults: returnRocks
-        });
-      })
-  }
+            if(element.hasOwnProperty('year')) {
+              return element.year.substring(0, 4)
+            } else {
+              return false;
+            }
+          });
+          
+          this.setState({
+              yearResults: years
+            });
+        })
+      }
+
+  // handleSubmit(e) {
+  //   axios.get('https://data.nasa.gov/resource/y77d-th95.json', {
+  //     params: {
+  //       year: `${this.state.year}-01-01T00:00:00.000`
+  //     }
+  //   })
+  //     .then((res) => {
+  //       // console.log(...res.data);
+  //       const returnRocks = res.data;
+
+  //       this.setState({
+  //         searchResults: returnRocks
+  //       });
+  //     })
+  // }
 
     render() {
 
@@ -87,22 +110,33 @@ class App extends React.Component {
         accessToken: "pk.eyJ1IjoiZmFsbGluZ3JvY2tzIiwiYSI6ImNqaGk1MXdlczIyMHgzZG03NHZpY3dndjIifQ.mxjjIpdUTjnfXfMtbQgIdQ"
       });
 
+      
       return (
         <main>
+          <InitialUserInput 
+            yearOptions = {this.state.yearResults}
+          />
+          <h1>Hi</h1>
           <Map
-            style="mapbox://styles/mapbox/streets-v9"
+            style="mapbox://styles/mapbox/dark-v9"
+            center={{ lng: -79.3979, lat: 43.6483 }}
+
             containerStyle={{
               height: "100vh",
-              width: "100vw"
-            }}>
+              width: "100vw",
+
+            }}
+          >
 
             <Layer
               type="symbol"
               id="marker"
               layout={{ "icon-image": "marker-15" }}>
-              <Feature coordinates={[-0.481747846041145, 51.3233379650232]}/>
+              < Feature coordinates={[-79.3979, 43.6483]}/>
+              < Feature coordinates={[-79.396341, 43.648043]}/>
             </Layer>
-            
+
+
           </Map>
         </main> 
         
