@@ -59,50 +59,84 @@ class App extends React.Component {
 
     this.state = {
       name: '',
-      coordinates: [],
+      coordinates: [[-79.396341, 43.648043], [-79.396341, 43.002]],
       mass: '',
       searchResults: [],
       year: '1990',
       yearResults:[]
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    axios.get('https://data.nasa.gov/resource/y77d-th95.json', {
 
-    })
-      .then((res) => {
-        // console.log(res.data);
-          const years = res.data.map((element)=> {
+    this.callToApi();
+    this.callToApiForYears();
 
-            if(element.hasOwnProperty('year')) {
-              return element.year.substring(0, 4)
-            } else {
-              return false;
-            }
-          });
-          
-          this.setState({
-              yearResults: years
-            });
-        })
+   
       }
 
-  // handleSubmit(e) {
-  //   axios.get('https://data.nasa.gov/resource/y77d-th95.json', {
-  //     params: {
-  //       year: `${this.state.year}-01-01T00:00:00.000`
-  //     }
-  //   })
-  //     .then((res) => {
-  //       // console.log(...res.data);
-  //       const returnRocks = res.data;
+      callToApiForYears() {
+        axios.get('https://data.nasa.gov/resource/y77d-th95.json', {
 
-  //       this.setState({
-  //         searchResults: returnRocks
-  //       });
-  //     })
-  // }
+        })
+          .then((res) => {
+            // console.log(res.data);
+            const years = res.data.map((element) => {
+
+              if (element.hasOwnProperty('year')) {
+                return element.year.substring(0, 4)
+              } else {
+                return false;
+              }
+
+            });
+
+            const sorted = years.sort().reverse();
+            const noDupes = Array.from(new Set(sorted));
+            this.setState({
+              yearResults: noDupes
+            });
+          })
+      }
+
+      callToApi() {
+        axios.get('https://data.nasa.gov/resource/y77d-th95.json', {
+
+          params: {
+            year: `${this.state.year}-01-01T00:00:00.000`
+          }
+        })
+
+          .then((res) => {
+            console.log(res.data);
+            const returnRocks = res.data;
+
+      
+            this.setState({
+              searchResults: returnRocks
+            })
+          })
+      }	 
+
+
+
+
+    handleSubmit(e) {
+      e.preventDefault();
+      this.callToApi();
+      console.log('click');
+    }
+
+    handleChange(e) {
+      // console.log(e.target.value);
+      this.setState({
+        year: e.target.value
+      });
+    }
+
 
     render() {
 
@@ -115,11 +149,13 @@ class App extends React.Component {
         <main>
           <InitialUserInput 
             yearOptions = {this.state.yearResults}
+            handleSubmit = {this.handleSubmit}
+            handleChange = {this.handleChange}
           />
           <h1>Hi</h1>
           <Map
             style="mapbox://styles/mapbox/dark-v9"
-            center={{ lng: -79.3979, lat: 43.6483 }}
+            zoom = {[1.7]} 
 
             containerStyle={{
               height: "100vh",
@@ -132,8 +168,14 @@ class App extends React.Component {
               type="symbol"
               id="marker"
               layout={{ "icon-image": "marker-15" }}>
-              < Feature coordinates={[-79.3979, 43.6483]}/>
-              < Feature coordinates={[-79.396341, 43.648043]}/>
+
+              {this.state.coordinates.map((latlong) => {
+                
+                return < Feature coordinates={latlong} />
+ 
+                })
+              }
+
             </Layer>
 
 

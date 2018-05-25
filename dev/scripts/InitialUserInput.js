@@ -7,14 +7,15 @@ class InitialUserInput extends React.Component {
              <div className="title">
                 <h1>AstroAtlas</h1>
              </div>
-             <form>
+                <form onSubmit={this.props.handleSubmit}>
                 
-                 <select name="year" id="year">
+                 <select name="year" id="year" onChange={this.props.handleChange} >
                     {this.props.yearOptions.map( (year, index) => {
-                        return year ? <option key={index }>{year}</option> : null;
+                        return year ? <option value={year} key={index}>{year}</option> : null;
                     })}
                  </select>
                  <label htmlFor="year">Year</label>
+                 <input type="submit" value="Submit"/>
              </form>
          </div>
         )
