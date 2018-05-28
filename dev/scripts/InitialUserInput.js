@@ -7,7 +7,7 @@ class InitialUserInput extends React.Component {
             <img src="public/assets/meteorIcon.png" alt="Meteor Icon"/>
 
             <div className="title">
-                <h1>AstroAtlas</h1>
+                <h1>AstroAtlas.</h1>
                 <p>explore global meteor landings through history</p>
             </div>
             <ul className="form">

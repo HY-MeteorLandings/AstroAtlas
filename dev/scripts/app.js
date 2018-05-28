@@ -114,7 +114,6 @@ class App extends React.Component {
 
     handleChange(e) {
       e.preventDefault();
-      // document.getElementById('mass').value = '';
       this.setState({
         year: e.target.value,
         mass: Number.MAX_SAFE_INTEGER
