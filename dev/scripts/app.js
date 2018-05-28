@@ -147,7 +147,6 @@ class App extends React.Component {
       return (
         <main>
           <div className="landingPage">
-
             <InitialUserInput 
               yearOptions = {this.state.yearResults}
               handleSubmit = {this.handleSubmit}
@@ -157,7 +156,6 @@ class App extends React.Component {
               massInput = {this.state.massInput}
             />
           </div>
-
 
           <Map
             style = "mapbox://styles/wesdevs/cjhmbfapx0awm2so5nq0rj976"
@@ -178,8 +176,12 @@ class App extends React.Component {
   
                 return <Feature
                   coordinates={latlong}
-                  key={i} />
+                  key={i} 
+                  style={{'color':'red'}} />
+                  {/* <img src={'public/assets.meteorite.png'}/> */}
 
+                  {/* </Marker> */}
+ 
                 })
               }
 
