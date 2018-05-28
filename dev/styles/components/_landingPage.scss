@@ -1,10 +1,8 @@
-
 .landingPage {
-    width: 20%;
     .initialUserInput {
         font-family: 'Ubuntu', sans-serif;
         background: rgba(122,123,217,0.7);
-                        border: 3px solid $navy;
+        border: 3px solid $navy;
         position: absolute;
         bottom: 20%;
         left: 30%;
@@ -24,7 +22,7 @@
         p {           
             font-size: calc(0.3rem + 1vw);
             color: $navy;
-            margin: 0;
+            margin: 0 auto;
         }
         ul.form {
             margin: 3rem;
@@ -32,13 +30,18 @@
             padding: 0;
             select, input {
                 font-family: 'Work Sans', sans-serif;
-                font-size: 2rem;
+                font-size: calc(0.8rem + 1vw);
                 font-weight: bold;
                 color: $navy;
                 background: transparent;
                 border: 3px solid $navy;
                 padding: 0.5rem;
                 margin: 0 auto;
+                cursor: pointer;
+            }
+            select:hover, select:active {
+                background: $navy;
+                color: white;
             }
             label {
                 font-size: calc(0.5rem + 1vw);
@@ -47,37 +50,60 @@
             input[type="submit"] {
                 margin-top: 2rem;
                 text-transform: uppercase;
+                transition: background 0.3s ease;
             }
-            input[type="submit"]:hover {
+            input[type="submit"]:hover, input[type="submit"]:active {
                 background: $gold;
             }
-          li.styleSelect {
-              background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
-              height: 40px;
-              overflow: hidden;
-              width: 100px;
-              margin: 0 auto;
-              select {
-                background: transparent;
-                border: none;
-                // font-size: 14px;
-                height: 40px;
-                padding: 5px;
-                width: 128px;
-                .styleSelect, .slate {
-                    background: url(http://i62.tinypic.com/2e3ybe1.jpg) no-repeat right center;
-                    height: 40px;
-                    width: 100px;
-                    padding-bottom: 10px;
-                    select {
-                        border: 1px solid #ccc;
-                        font-size: 16px;
-                        height: 40px;
-                        width: 128px;
-                    }
+        }  
+    }
+}
+
+//MEDIA QUERIES 
+
+@media(max-width: 875px) {
+    .landingPage {
+        .initialUserInput {
+            left: 25%;
+            width: 50%;
+            p {           
+                font-size: calc(0.6rem + 1vw);
+                width: 80%;
+            }
+        }
+    }
+}
+
+@media(max-width: 550px) {
+    .landingPage {
+        .initialUserInput {
+            position: absolute;
+            bottom: 20%;
+            left: 20%;
+            width: 60%;
+            p {           
+                font-size: calc(0.6rem + 1vw);
+                width: 90%;
+            } 
+        }   
+    }
+}
+
+@media(max-width: 450px) {
+    .landingPage {
+        .initialUserInput {
+            h1 {
+                font-size: calc(2rem + 2vw);
+            }
+            p {           
+                font-size: calc(0.8rem + 1vw);
+            } 
+            ul.form {
+                label {
+                font-size: calc(1rem + 1vw);
+                color: $navy;
                 }
-              }
-          }  
+            }   
         }
     }
 }

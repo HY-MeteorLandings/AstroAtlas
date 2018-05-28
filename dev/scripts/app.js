@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import InitialUserInput from './InitialUserInput';
+import Sidebar from './Sidebar';
 import axios from 'axios';
 import ReactMapboxGl, {
   Layer,
@@ -40,7 +41,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-
     this.callToApi();
     this.callToApiForYears();
     this.generateInputMass();
@@ -106,14 +106,14 @@ class App extends React.Component {
 
     handleSubmit(e) {
       e.preventDefault();
-
         this.callToApi();
-
+        document.getElementById('landingPage').classList.add('hide');
+        document.getElementById('sidebar').classList.remove('hide');
+        // document.getElementById('sidebar').classList.add('display');
     }
 
     handleChange(e) {
       e.preventDefault();
-      document.getElementById('mass').value = '';
       this.setState({
         year: e.target.value,
         mass: Number.MAX_SAFE_INTEGER
@@ -146,14 +146,22 @@ class App extends React.Component {
 
       return (
         <main>
-          <div className="landingPage">
+          <div className="landingPage" id="landingPage">
             <InitialUserInput 
               yearOptions = {this.state.yearResults}
               handleSubmit = {this.handleSubmit}
               handleChange = {this.handleChange}
-              massHandleChange = {this.massHandleChange}
-              generateInputMass = {this.generateInputMass}
-              massInput = {this.state.massInput}
+            />
+          </div>
+
+          <div className="sidebar hide" id="sidebar">
+            <Sidebar
+              yearOptions={this.state.yearResults}
+              handleSubmit={this.handleSubmit}
+              handleChange={this.handleChange}
+              massHandleChange={this.massHandleChange}
+              generateInputMass={this.generateInputMass}
+              massInput={this.state.massInput}
             />
           </div>
 
