@@ -39,6 +39,7 @@
                 border: 3px solid $navy;
                 padding: 0.5rem;
                 margin: 0 auto;
+                cursor: pointer;
             }
             label {
                 font-size: calc(0.5rem + 1vw);
@@ -51,7 +52,7 @@
             input[type="submit"]:hover {
                 background: $gold;
             }
-          li.styleSelect {
+            li.styleSelect {
               background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
               height: 40px;
               overflow: hidden;

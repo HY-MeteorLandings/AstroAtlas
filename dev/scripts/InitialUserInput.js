@@ -21,21 +21,9 @@ class InitialUserInput extends React.Component {
                 </li>    
                 <li>
                     <label htmlFor="year">Year</label>
-                </li>
-                <li>
-                    <select type="text" id="mass" placeholder="mass by 100s"onChange={this.props.massHandleChange}>
-                { this.props.massInput.map((number, i) => {
-                    return <option value={number} key={i}>{number}</option>
-                })}
-                </select> 
-                </li>
-                <li>
-                    <label htmlFor="Mass">Mass</label>
-                </li>                          
-                
-                <input type="submit" value="Submit"/>                             
+                </li>                                       
+                <input type="submit" value="Submit"/>       
              </form>
-            
             </ ul>
          </div>
         )

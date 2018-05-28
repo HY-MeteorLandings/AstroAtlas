@@ -1,0 +1,86 @@
+
+.sidebar {
+    width: 20%;
+    // display: block;
+    .sidebar {
+        font-family: 'Ubuntu', sans-serif;
+        background: rgba(122,123,217,0.7);
+                        border-right: 3px solid $navy;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        width: 20%;
+        padding: 1rem;
+        text-align: center;
+        height: 100vh;
+        img {
+            width: 50px;
+            height: 50px;
+        }
+        h1 {
+            font-size: calc(1.5rem + 1vw);
+            color: $gold;
+            margin: 0;
+        }
+
+        li {
+            border: 1px solid red;
+            margin-bottom: 2rem;
+        }
+        ul.form {
+            // margin: 3rem;
+            list-style: none;
+            padding: 0;
+            select, input {
+                font-family: 'Work Sans', sans-serif;
+                font-size: 2rem;
+                font-weight: bold;
+                color: $navy;
+                background: transparent;
+                border: 3px solid $navy;
+                padding: 0.5rem;
+                margin: 0 auto;
+            }
+            label {
+                font-size: calc(0.5rem + 1vw);
+                color: $navy;
+            }
+            input[type="submit"] {
+                margin-top: 2rem;
+                text-transform: uppercase;
+                transition: all 0.5s ease-in-out;
+            }
+            input[type="submit"]:hover {
+                background: $gold;
+            }
+            li.styleSelect {
+                background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+                height: 40px;
+                overflow: hidden;
+                width: 100px;
+                margin: 0 auto;
+                select {
+                    background: transparent;
+                    border: none;
+                    // font-size: 14px;
+                    height: 40px;
+                    padding: 5px;
+                    width: 128px;
+                    .styleSelect, .slate {
+                        background: url(http://i62.tinypic.com/2e3ybe1.jpg) no-repeat right center;
+                        height: 40px;
+                        width: 100px;
+                        padding-bottom: 10px;
+                        select {
+                            border: 1px solid #ccc;
+                            font-size: 16px;
+                            height: 40px;
+                            width: 128px;
+                        }
+                    }
+                }
+            }  
+        }
+    }
+}
