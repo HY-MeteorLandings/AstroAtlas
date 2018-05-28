@@ -7,49 +7,16 @@ import ReactMapboxGl, {
   Feature,
   Marker
 } from "react-mapbox-gl";
+import { resolveSoa } from 'dns';
 
-// * MAPBOX access token - pk.eyJ1IjoiZmFsbGluZ3JvY2tzIiwiYSI6ImNqaGk1MXdlczIyMHgzZG03NHZpY3dndjIifQ.mxjjIpdUTjnfXfMtbQgIdQ
-
+// * MAPBOX access token - pk.eyJ1Ijoid2VzZGV2cyIsImEiOiJjamhtZTM5YWEwNjl1M2RvYmJ6bGNkNzZsIn0.J-xgf-_yYJLoLRoSfCMtTg
 // Install
-
-// * MAPBOX npm install - npm install mapbox - gl--save
 // npm install react - mapbox - gl mapbox - gl--save
-// * MAPBOX - adding the map - 
 
-
-// Replace 'YOUR_CONTAINER_ELEMENT_ID' with the id of an element on your page where you would like your map.
-
-// var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
-
-
-// mapboxgl.accessToken = 'pk.eyJ1IjoiZmFsbGluZ3JvY2tzIiwiYSI6ImNqaGk1MXdlczIyMHgzZG03NHZpY3dndjIifQ.mxjjIpdUTjnfXfMtbQgIdQ';
-
-// var map = new mapboxgl.Map({
-//   container: 'YOUR_CONTAINER_ELEMENT_ID',
-//   style: 'mapbox://styles/mapbox/streets-v10'
-// });\
-
-
-// Using the user input of “year”, we need to submit that to our Axios call
-// Filter through the data with matching year
-// Then mapping the data with long and lat into an array
-//   (We may also need mass and name)
-// For specifically the long and lat {
-//   0 > geolocation > coordinates > [long, lat]
-// }
-// Our state will have
-// Location Array: []
-// We need to push all matching longitude and latitude into location array
-
-
-// ** user input (defaulted to 2018 - showing on page load) to choose year to pull from NASA, sortable mass **
-// 1. pull in NASA API - https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh
-// 2. figure out data that MapBox needs from NASA API - coordinates (long, lat)
-// 3. splice out that data/send to MapBox
-// 4. Show a map of the earth with all of the locations as pins on a map. (how do we want map to show?)
-// 5. when click on pin, show addt info/show list of all pins
-
-
+const Map = ReactMapboxGl({
+  accessToken: "pk.eyJ1Ijoid2VzZGV2cyIsImEiOiJjamhtZTM5YWEwNjl1M2RvYmJ6bGNkNzZsIn0.J-xgf-_yYJLoLRoSfCMtTg",
+  movingMethod: "easeTo"
+});
 
 
 class App extends React.Component {
@@ -58,32 +25,34 @@ class App extends React.Component {
     super();
 
     this.state = {
-      name: '',
-      coordinates: [[-79.396341, 43.648043], [-79.396341, 43.002]],
-      mass: '',
+      coordinates: [],
+      mass: Number.MAX_SAFE_INTEGER,
       searchResults: [],
-      year: '1990',
-      yearResults:[]
+      year: '2013',
+      yearResults:[],
+      massInput:[]
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.massHandleChange = this.massHandleChange.bind(this);
+    this.generateInputMass = this.generateInputMass.bind(this);
   }
 
   componentDidMount() {
 
     this.callToApi();
     this.callToApiForYears();
-
+    this.generateInputMass();
    
-      }
+    }
 
       callToApiForYears() {
         axios.get('https://data.nasa.gov/resource/y77d-th95.json', {
 
         })
           .then((res) => {
-            // console.log(res.data);
+
             const years = res.data.map((element) => {
 
               if (element.hasOwnProperty('year')) {
@@ -106,63 +75,97 @@ class App extends React.Component {
         axios.get('https://data.nasa.gov/resource/y77d-th95.json', {
 
           params: {
-            year: `${this.state.year}-01-01T00:00:00.000`
+            year: `${this.state.year}-01-01T00:00:00.000`,
           }
         })
 
           .then((res) => {
-            console.log(res.data);
+
             const returnRocks = res.data;
 
-      
+            const geoLocations = []
+            let meteorMass = this.state.mass;
+
+            returnRocks.map((res)=> {
+
+              if (res.hasOwnProperty('geolocation') && (res.mass <= meteorMass)) {
+
+                geoLocations.push(res.geolocation.coordinates);
+              } else {
+                return false;
+              }
+            })
+
             this.setState({
-              searchResults: returnRocks
+              searchResults: returnRocks,
+              coordinates: geoLocations
             })
           })
       }	 
 
 
-
-
     handleSubmit(e) {
       e.preventDefault();
-      this.callToApi();
-      console.log('click');
+
+        this.callToApi();
+
     }
 
     handleChange(e) {
-      // console.log(e.target.value);
+      e.preventDefault();
+      document.getElementById('mass').value = '';
       this.setState({
-        year: e.target.value
-      });
+        year: e.target.value,
+        mass: Number.MAX_SAFE_INTEGER
+      });    
     }
 
 
+    massHandleChange(e) {
+      e.preventDefault();
+      this.setState({
+        mass: Math.floor(e.target.value)
+      })
+    }
+
+    generateInputMass() {
+      const counter = [];
+
+      for(let i = 0; i < 1000; i = i + 100) {
+        counter.push(i);
+      }
+      for(let i = 1000; i <= 1000000; i = i + 1000) {
+        counter.push(i);
+      }
+      this.setState({
+        massInput: counter
+      })
+    }
+
     render() {
 
-      const Map = ReactMapboxGl({
-        accessToken: "pk.eyJ1IjoiZmFsbGluZ3JvY2tzIiwiYSI6ImNqaGk1MXdlczIyMHgzZG03NHZpY3dndjIifQ.mxjjIpdUTjnfXfMtbQgIdQ"
-      });
-
-      
       return (
         <main>
           <div className="landingPage">
+
             <InitialUserInput 
               yearOptions = {this.state.yearResults}
               handleSubmit = {this.handleSubmit}
               handleChange = {this.handleChange}
+              massHandleChange = {this.massHandleChange}
+              generateInputMass = {this.generateInputMass}
+              massInput = {this.state.massInput}
             />
           </div>
 
+
           <Map
-            style="mapbox://styles/mapbox/dark-v9"
+            style = "mapbox://styles/wesdevs/cjhmbfapx0awm2so5nq0rj976"
             zoom = {[1.7]} 
 
             containerStyle={{
               height: "100vh",
               width: "100vw",
-
             }}
           >
 
@@ -171,19 +174,19 @@ class App extends React.Component {
               id="marker"
               layout={{ "icon-image": "marker-15" }}>
 
-              {this.state.coordinates.map((latlong) => {
-                
-                return < Feature coordinates={latlong} />
- 
+              {this.state.coordinates.map((latlong, i) => {
+  
+                return <Feature
+                  coordinates={latlong}
+                  key={i} />
+
                 })
               }
 
             </Layer>
-
-
           </Map>
+
         </main> 
-        
       )
     }
 }
