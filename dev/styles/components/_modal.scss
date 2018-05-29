@@ -1,0 +1,30 @@
+
+.box {
+    padding: 1rem;
+    background: $navy;
+    button {
+        background: transparent;
+        color: white;
+        border: none;
+        float: right;
+    }
+    button:hover {
+        color: gold;
+    }
+    P {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: normal;
+        margin: 0;
+        text-transform: uppercase;
+        color: white;
+    }
+    h3 {
+        margin: 0.5rem 0 0 0;
+        border-bottom: 1px solid $gold;
+        color: $gold;
+        width: 100%;
+        .name {
+            margin-top: 1rem;
+        }
+    }
+}

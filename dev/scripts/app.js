@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import InitialUserInput from './InitialUserInput';
 import Sidebar from './Sidebar';
 import axios from 'axios';
+import Modal from './Modal';
+import Copyright from './Copyright';
 import ReactMapboxGl, {
   Layer,
   Feature,
@@ -195,12 +197,14 @@ class App extends React.Component {
         coordinates={this.state.popupcords}
         id="pop"
       >
-        <p>{this.state.meteorInfo}</p> 
-        <p>Mass: {this.state.selectedMass}</p>
-        <p>Meteor Class: {this.state.meteorClass}</p>
-        <p>Lat: {this.state.lat}</p>
-        <p>Long: {this.state.long}</p>
-        <button onClick={this.popupHide}>X</button>
+        <Modal 
+          name = {this.state.meteorInfo}
+          mass = {this.state.selectedMass}
+          class = {this.state.meteorClass}
+          lat = {this.state.lat}
+          long = {this.state.long}
+          function = {this.popupHide}
+        />
       </Popup>
     ) : null
   }
@@ -249,11 +253,10 @@ class App extends React.Component {
                     />
                   })
                 }
-               
-
             </Layer>
 
           </Map>
+               <Copyright />
 
         </main> 
       )

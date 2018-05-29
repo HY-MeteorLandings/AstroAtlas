@@ -33,6 +33,9 @@ class Sidebar extends React.Component {
                         <li>
                             <input type="submit" value="Submit" />
                         </li>
+                        <li>
+                            <p>Click on map markers to display meteor info</p>
+                        </li>
                     </form>
                 </ul>
             </div>
