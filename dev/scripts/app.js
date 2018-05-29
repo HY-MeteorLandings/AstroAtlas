@@ -38,6 +38,7 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.massHandleChange = this.massHandleChange.bind(this);
     this.generateInputMass = this.generateInputMass.bind(this);
+    this.sideBarHandleChange = this.sideBarHandleChange.bind(this);
   }
 
   componentDidMount() {
@@ -120,6 +121,14 @@ class App extends React.Component {
       });    
     }
 
+    sideBarHandleChange(e) {
+      e.preventDefault();
+      document.getElementById('mass').value = '0';
+      this.setState({
+        year: e.target.value,
+        mass: Number.MAX_SAFE_INTEGER
+      });
+    }
 
     massHandleChange(e) {
       e.preventDefault();
@@ -158,7 +167,7 @@ class App extends React.Component {
             <Sidebar
               yearOptions={this.state.yearResults}
               handleSubmit={this.handleSubmit}
-              handleChange={this.handleChange}
+              sideBarHandleChange={this.sideBarHandleChange}
               massHandleChange={this.massHandleChange}
               generateInputMass={this.generateInputMass}
               massInput={this.state.massInput}

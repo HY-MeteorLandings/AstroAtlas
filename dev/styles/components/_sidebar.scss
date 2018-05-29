@@ -8,7 +8,7 @@
         bottom: 0;
         left: 0;
         z-index: 100;
-        padding: 1rem;
+        padding: 2rem;
         text-align: center;
         height: 100vh;
         img {
@@ -50,43 +50,16 @@
             input[type="submit"]:hover,input[type="submit"]:active {
                 background: $gold;
             }
-            // li.styleSelect {
-            //     background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
-            //     height: 40px;
-            //     overflow: hidden;
-            //     width: 100px;
-            //     margin: 0 auto;
-            //     select {
-            //         background: transparent;
-            //         border: none;
-            //         // font-size: 14px;
-            //         height: 40px;
-            //         padding: 5px;
-            //         width: 128px;
-            //         .styleSelect, .slate {
-            //             background: url(http://i62.tinypic.com/2e3ybe1.jpg) no-repeat right center;
-            //             height: 40px;
-            //             width: 100px;
-            //             padding-bottom: 10px;
-            //             select {
-            //                 border: 1px solid #ccc;
-            //                 font-size: 16px;
-            //                 height: 40px;
-            //                 width: 128px;
-            //             }
-            //         }
-            //     }
         }  
     }
 }
 
 //MEDIA QUERIES
 
-@media(max-width: 750px) {
+@media(max-width: 968px) {
     .sidebar {
         width: 30%;
         .sidebar {
-            padding: 1rem;
             h1 {
                 font-size: calc(1.5rem + 1vw);
           }
@@ -94,7 +67,7 @@
     }
 }
 
-@media(max-width: 500px) {
+@media(max-width: 600px) {
   .sidebar {
         width: 100%;
         .sidebar {
