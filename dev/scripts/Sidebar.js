@@ -11,7 +11,7 @@ class Sidebar extends React.Component {
                 <ul className="form">
                     <form onSubmit={this.props.handleSubmit}>
                         <li>
-                            <select className="year" name="year" id="year" onChange={this.props.handleChange} placeholder="Year">
+                            <select className="year" name="year" id="year" onChange={this.props.sideBarHandleChange} placeholder="Year">
                                 {this.props.yearOptions.map((year, index) => {
                                     return year ? <option value={year} key={index}>{year}</option> : null;
                                 })}
@@ -28,7 +28,7 @@ class Sidebar extends React.Component {
                             </select>
                         </li>
                         <li>
-                            <label htmlFor="Mass">Mass (in grams)</label>
+                            <label htmlFor="Mass">Mass</label>
                         </li>
                         <li>
                             <input type="submit" value="Submit" />
