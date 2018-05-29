@@ -6,7 +6,7 @@ import axios from 'axios';
 import ReactMapboxGl, {
   Layer,
   Feature,
-  Marker
+  Popup
 } from "react-mapbox-gl";
 import { resolveSoa } from 'dns';
 
@@ -30,14 +30,25 @@ class App extends React.Component {
       mass: Number.MAX_SAFE_INTEGER,
       searchResults: [],
       year: '2013',
-      yearResults:[],
-      massInput:[]
+      yearResults: [],
+      massInput: [],
+      selectedMarker: [],
+      popupcords: [0, 0],
+      showPopUp: false,
+      meteorInfo: '',
+      selectedMass: '',
+      lat: '',
+      long: '',
+      meteorClass: ''
+
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.massHandleChange = this.massHandleChange.bind(this);
     this.generateInputMass = this.generateInputMass.bind(this);
+    this.popupClick = this.popupClick.bind(this);
+    this.popupHide = this.popupHide.bind(this);
     this.sideBarHandleChange = this.sideBarHandleChange.bind(this);
   }
 
@@ -105,12 +116,14 @@ class App extends React.Component {
       }	 
 
 
-    handleSubmit(e) {
-      e.preventDefault();
-        this.callToApi();
-        document.getElementById('landingPage').classList.add('hide');
-        document.getElementById('sidebar').classList.remove('hide');
-        // document.getElementById('sidebar').classList.add('display');
+     handleSubmit(e) {
+       e.preventDefault();
+       this.callToApi();
+       document.getElementById('landingPage').classList.add('hide');
+       document.getElementById('sidebar').classList.remove('hide');
+       this.setState({
+         popupcords: [-90, 90]
+       })
     }
 
     handleChange(e) {
@@ -150,59 +163,96 @@ class App extends React.Component {
         massInput: counter
       })
     }
+    
+    popupHide() {
+      this.setState({
+        popupcords: [-90, 90]
+      })
+    }
+    popupClick(latlong,i) {
+      const text = this.state.searchResults[i].name;
+      const clickedMass = this.state.searchResults[i].mass;
+      const latitute = this.state.searchResults[i].reclat;
+      const longitude = this.state.searchResults[i].reclong;
+      const meteorClass = this.state.searchResults[i].recclass;
+      console.log(text)
+      this.setState({
+        popupcords: latlong,
+        showPopUp: true,
+        meteorInfo: text,
+        selectedMass: clickedMass,
+        lat: latitute,
+        long: longitude,
+        meteorClass: meteorClass
+      })
+    }
 
+
+  renderPopUp() {
+  
+    return this.state.showPopUp ? (
+      <Popup  
+        coordinates={this.state.popupcords}
+        id="pop"
+      >
+        <p>{this.state.meteorInfo}</p> 
+        <p>Mass: {this.state.selectedMass}</p>
+        <p>Meteor Class: {this.state.meteorClass}</p>
+        <p>Lat: {this.state.lat}</p>
+        <p>Long: {this.state.long}</p>
+        <button onClick={this.popupHide}>X</button>
+      </Popup>
+    ) : null
+  }
     render() {
 
       return (
         <main>
-          <div className="landingPage" id="landingPage">
+          <div id="landingPage" className="landingPage">
             <InitialUserInput 
               yearOptions = {this.state.yearResults}
               handleSubmit = {this.handleSubmit}
               handleChange = {this.handleChange}
             />
           </div>
-
-          <div className="sidebar hide" id="sidebar">
-            <Sidebar
-              yearOptions={this.state.yearResults}
-              handleSubmit={this.handleSubmit}
-              sideBarHandleChange={this.sideBarHandleChange}
-              massHandleChange={this.massHandleChange}
-              generateInputMass={this.generateInputMass}
-              massInput={this.state.massInput}
+          <div id="sidebar" className="sidebar hide">
+             <Sidebar 
+              yearOptions = {this.state.yearResults}
+              handleSubmit = {this.handleSubmit}
+              sideBarHandleChange = {this.sideBarHandleChange}
+              massHandleChange = {this.massHandleChange}
+              generateInputMass = {this.generateInputMass}
+              massInput = {this.state.massInput}
             />
           </div>
 
           <Map
             style = "mapbox://styles/wesdevs/cjhmbfapx0awm2so5nq0rj976"
             zoom = {[1.7]} 
-
             containerStyle={{
               height: "100vh",
               width: "100vw",
             }}
           >
-
+            {this.renderPopUp()}
             <Layer
               type="symbol"
               id="marker"
               layout={{ "icon-image": "marker-15" }}>
 
-              {this.state.coordinates.map((latlong, i) => {
-  
-                return <Feature
-                  coordinates={latlong}
-                  key={i} 
-                  style={{'color':'red'}} />
-                  {/* <img src={'public/assets.meteorite.png'}/> */}
-
-                  {/* </Marker> */}
- 
-                })
-              }
+                {
+                  this.state.coordinates.map((latlong, i) => {
+                    return <Feature
+                    coordinates = {latlong}
+                    key = {i}
+                    onClick = {() => this.popupClick(latlong,i)}
+                    />
+                  })
+                }
+               
 
             </Layer>
+
           </Map>
 
         </main> 
