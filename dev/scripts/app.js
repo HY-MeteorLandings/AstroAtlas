@@ -41,7 +41,8 @@ class App extends React.Component {
       selectedMass: '',
       lat: '',
       long: '',
-      meteorClass: ''
+      meteorClass: '',
+      parsedResults: []
 
     }
 
@@ -100,11 +101,15 @@ class App extends React.Component {
             const geoLocations = []
             let meteorMass = this.state.mass;
 
+            const parsedResults = []
+
             returnRocks.map((res)=> {
 
               if (res.hasOwnProperty('geolocation') && (res.mass <= meteorMass)) {
 
                 geoLocations.push(res.geolocation.coordinates);
+                parsedResults.push(res);
+
               } else {
                 return false;
               }
@@ -112,7 +117,8 @@ class App extends React.Component {
 
             this.setState({
               searchResults: returnRocks,
-              coordinates: geoLocations
+              coordinates: geoLocations,
+              parsedResults: parsedResults
             })
           })
       }	 
@@ -172,12 +178,11 @@ class App extends React.Component {
       })
     }
     popupClick(latlong,i) {
-      const text = this.state.searchResults[i].name;
-      const clickedMass = this.state.searchResults[i].mass;
-      const latitute = this.state.searchResults[i].reclat;
-      const longitude = this.state.searchResults[i].reclong;
-      const meteorClass = this.state.searchResults[i].recclass;
-      console.log(text)
+      const text = this.state.parsedResults[i].name;
+      const clickedMass = this.state.parsedResults[i].mass;
+      const latitute = this.state.parsedResults[i].reclat;
+      const longitude = this.state.parsedResults[i].reclong;
+      const meteorClass = this.state.parsedResults[i].recclass;
       this.setState({
         popupcords: latlong,
         showPopUp: true,
